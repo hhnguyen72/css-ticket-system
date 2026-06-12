@@ -27,7 +27,7 @@ import pytest
 from datetime import datetime, timedelta
 from unittest.mock import MagicMock, patch
 
-from src.models import (
+from models import (
     Category,
     POC,
     Priority,
