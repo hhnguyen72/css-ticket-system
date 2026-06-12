@@ -23,8 +23,8 @@ Behavior:
 
 from __future__ import annotations
 
-from src.protocols import Router
-from src.models import Ticket, TicketError, TicketErrorCode
+from protocols import Router
+from models import Ticket, TicketError, TicketErrorCode
 
 class MockRouter(Router):
     """

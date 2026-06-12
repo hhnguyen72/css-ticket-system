@@ -22,8 +22,8 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from src.protocols import Classifier
-from src.models import (
+from protocols import Classifier
+from models import (
     Category,
     POC,
     Priority,

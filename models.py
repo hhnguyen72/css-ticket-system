@@ -1,5 +1,5 @@
 """
-types/models.py
+/models.py
 ---------------
 Core domain types and enumerations for the CSS Ticket Management Tool.
 

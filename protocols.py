@@ -1,5 +1,5 @@
 """
-src/protocols.py
+/protocols.py
 -----------------------
 Abstract interface contracts for the CSS Ticket Management Tool.
 
@@ -21,7 +21,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Protocol
 
-from src.models import Category, Ticket, TicketForm, TicketID
+from models import Category, Ticket, TicketForm, TicketID
 
 # ============================================================
 # ID GENERATION INTERFACES

@@ -1,8 +1,9 @@
 # CSS Ticket Management Tool — ID Generation Feature
 
-## Project Structure
+## Project Structure --Needs Updating
 
 ```
+
 css-ticket-system/
 ├── resources/spec_bundle
 │   ├── acceptance_criteria.md
@@ -29,13 +30,20 @@ css-ticket-system/
 
 ## Team Ownership
 
-| Module                        | Owner                | Implement Here? |
-|-------------------------------|----------------------|-----------------|
-| `src/models.py`             | Shared               | ✅ Shared types  |
-| `src/protocols.py`          | Shared               | ❌ No bodies     |
-| `src/mock_classifier.py`    | ID Generation team   | ✅ Mock only     |
-| `src/mock_router.py`        | ID Generation team   | ✅ Mock only     |
-| `src/test_ticket_id.py`     | ID Generation team   | ✅ Tests only    |
+| Module                       | Owner                | Implement Here?  |
+|------------------------------|----------------------|------------------|
+| `/models.py`                 | Shared               | ✅ Shared types  |
+| `/protocols.py`              | Shared               | ❌ No bodies     |
+| `src/mock_classifier.py`     | ID Generation team   | ✅ Mock only     |
+| `src/mock_router.py`         | ID Generation team   | ✅ Mock only     |
+| `src/test_ticket_id.py`      | ID Generation team   | ✅ Tests only    |
+| `service/classifier.py`      | ID Generation team   | ✅ Tests only    |
+| `service/queue_store.py`     | ID Generation team   | ✅ Tests only    |
+| `service/redactor.py`        | ID Generation team   | ✅ Tests only    |
+| `service/router.py`          | ID Generation team   | ✅ Tests only    |
+| `service/sequence_counter.py`|  ID Generation team  | ✅ Tests only    |
+| `service/ticket_id.py`       | ID Generation team   | ✅ Tests only    |
+
 
 ## Boundary Rules
 
