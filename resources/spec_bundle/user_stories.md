@@ -7,4 +7,4 @@ As a **CSS team operator**, I want incoming customer emails to be automatically 
 As a **CSS team lead**, I want to view open ticket volume, agent workload, and SLA status at a glance, so that I can reassign or escalate before deadlines are missed. 
 
 ## US-003  — submitting requests
-As a **customer/personnel**, want to receive an automatic confirmation with a ticket ID after submitting a request, so that I know it was received and can follow up if needed
+As a **customer/personnel**, want to receive an automatic confirmation with a ticket ID after submitting a request, so that I know it was received and can follow up if needed.

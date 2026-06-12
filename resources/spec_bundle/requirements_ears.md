@@ -5,30 +5,23 @@
 The system shall extract all six fields (category, priority, timeline, description, poc_emails[], poc_phones[]) with a per-field confidence score (0.00–1.00) on every CSS request received. If a field cannot be extracted, the system shall return null and conf:0.00 — fabrication is never permitted.
 
 **REQ-U-002**
-The system shall scan the full input text of every ticket for DoD ID patterns — defined as exactly 10 consecutive decimal digits (\b\d{10}\b) not preceded or followed by additional digits — and replace each match with [DOD_ID_REDACTED] across all output fields before the ticket is returned or stored. No ticket in which the source text contained an unredacted DoD ID shall be emitted, regardless of field, context, or confidence level.
+The system shall sort all tickets in a batch by priority tier ascending (1 → 3), breaking ties within the same tier by Need By Date ascending, and shall return all tickets in the resolved order with no ticket omitted from the sorted output.
 
-**REQ-U-003**
-The system shall assign exactly one category value — SEL/Commander's Request, Record Update, or Dissemination Info — to every processed ticket. category:null is never a valid output. When evaluated against a labeled ground-truth corpus of ≥100 CSS requests, the system shall achieve ≥90% exact-match accuracy on the category field, reported per-category.
 
 ## Event-Driven Requirements
 
 **REQ-E-001**
-When a CSS request is received, the system shall parse and return all six structured fields with per-field confidence scores in the response payload.
+When a structured form submission is received, the system shall extract all five required fields — category, priority, timeline, description, and POC — and return a fully populated ticket payload within 5 seconds.
 
 **REQ-E-002**
-When classification confidence for all three categories falls below 0.60, the system shall set category_flag:"REVIEW_REQUIRED" alongside the best-guess category. Silently defaulting to any fixed category without setting this flag is a violation.
+When a 10-digit numeric string matching \b\d{10}\b is detected in any field of a submitted form, the system shall replace it with [DOD_ID_REDACTED] before the ticket is written to storage or surfaced in any output.
 
 
 ## Unwanted-Behaviour Requirements
 
 **REQ-IF-001**
-If a field cannot be extracted from the input, the system shall never infer, default, or fabricate a value. The output for that field shall be null with conf:0.00. Outputting a non-null value with no extractable signal in the source text is a violation.
+If a submitted form contains a category value that does not map to any of the three canonical categories — SEL/Commander's Signature, Record Update, or Dissemination Info — the system shall reject the ticket, return a descriptive validation error to the submitter, and shall not create a partial or uncategorized ticket record in the system.
 
-**REQ-IF-002**
-If a 10-digit numeric string matching the DoD ID pattern is present anywhere in the source text, the system shall not leave it unredacted in any output field. The match is format-based — surrounding labels such as "Ref#" or "ID:" do not exempt a string from redaction.
-
-**REQ-IF-003**
-If classification confidence is below threshold and category_flag:"REVIEW_REQUIRED" is not set, the system shall not emit the ticket. Outputting a category with sub-threshold confidence and no review flag is an explicit violation.
 
 ## Optional Feature Requirements
 
@@ -44,10 +37,4 @@ Where the configurable threshold feature is enabled, the system shall use the op
 ## State-Driven Requirements
 
 **REQ-WH-001**
-While a ticket's category_flag is REVIEW_REQUIRED, the system shall block the ticket from downstream routing, assignment, or storage in any final state until an authorized reviewer confirms or overrides the category.
-
-**REQ-WH-002**
-While a ticket is in the output preparation stage, the system shall hold the response and complete a full redaction pass across all fields before releasing the payload. No partial or unscanned output shall be emitted.
-
-**REQ-WH-003**
-While a parsed ticket contains null values for three or more required fields, the system shall route the ticket to a manual review queue and suppress automated processing until an authorized operator acknowledges the incomplete record.
+While one or more Priority 1 (SEL/Commander's Signature) tickets remain unresolved in the queue, the system shall maintain those tickets at the top of the sorted ticket list regardless of the Need By Date of any lower-priority tickets.
